@@ -1,0 +1,11 @@
+.addbtn{
+    margin-bottom: 34px;
+}
+
+input:checked+p{
+    text-decoration: line-through;
+
+}
+.item{
+    width: 90%;
+}

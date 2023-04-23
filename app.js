@@ -1,20 +1,42 @@
 const express=require("express");
-const bodyParser=require("body-parser");
+const bodyParser=require('body-parser');
+const date=require(__dirname+'/date.js');
 
 const app=express();
-
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine','ejs');
+app.use(express.static("public"));
 
+let todolist=["eat","sleep","code"];
+let workList=[];
 
+let today=date.getDay();
 app.get("/",(req,res)=>{
-    const days=["sunday","monday","tuesday","wednesday","thursday","friday","saturday"]
-    const date=new Date();
-    const today=date.getDay();
-    res.render("list",{day:days[today]});
+    res.render("list",{list:todolist,title:today});
 })
 
+app.post("/",(req,res)=>{
+    const newItem=req.body.additem;
+    const listname=req.body.list;
 
+    if(listname=="work"){
+        workList.push(newItem);
+        res.redirect('/work');
+    }else{
+        todolist.push(newItem);
+        res.redirect("/");
+    }
+
+
+   
+})
+
+app.get("/work",(req,res)=>{
+    res.render('list',{list:workList,title:"work"});
+    
+    
+
+})
 
 
 
